@@ -13,6 +13,7 @@ var
     image_data: seq[uint8]
     counter: int = 0
     ascii_set: string = " .'-_~*#%@"
+    brightness_buffer: seq[uint8]
     ascii_art: string
 
 proc convertToAscii(brightness_value: uint8): char =
@@ -39,28 +40,24 @@ proc convertToAscii(brightness_value: uint8): char =
             ascii_set[9]
 
 proc main() =
-    render()
-
     image_data = stbi.load("../images/test-80-40.jpg", width, height, channels, stbi.Default)
+    render(image_data, width, height)
 
-    for index, pixel in image_data:
-        if counter != 2:
-            inc(counter)
-            continue
+    # for index, pixel in image_data:
+    #     if counter != 2:
+    #         inc(counter)
+    #         continue
 
-        if (index + 1) mod 80 == 0:
-            ascii_art.add('\n')
+    #     if (index + 1) mod 80 == 0:
+    #         ascii_art.add('\n')
 
+    #     var bluePxl = cast[float](image_data[index]) * BLUE
+    #     var greenPxl = cast[float](image_data[index - 1]) * GREEN
+    #     var redPxl = cast[float](image_data[index] - 2) * RED
+    #     brightness_buffer.add(cast[uint8](redPxl + greenPxl + bluePxl))
+       
+    #     counter = 0
 
-        var bluePxl = cast[float](image_data[index]) * BLUE
-        var greenPxl = cast[float](image_data[index - 1]) * GREEN
-        var redPxl = cast[float](image_data[index] - 2) * RED
-        var brightness_value: uint8 = cast[uint8](redPxl + greenPxl + bluePxl)
-
-        var ascii_char: char = convertToAscii(brightness_value)
-        ascii_art.add(ascii_char)
-        counter = 0
-
-    echo ascii_art
+    # echo ascii_art
 
 main()
