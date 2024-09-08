@@ -1,6 +1,7 @@
-import stb_image/read as stbi
-import stb_image/write as stbiw
+import external/stb_image/read as stbi
+import external/stb_image/write as stbiw
 import std/os
+import internal/graphics
 
 # ITU-R BT.601 standards for luminance equations
 const RED: float = 0.299
@@ -11,7 +12,7 @@ var
     width, height, channels: int
     image_data: seq[uint8]
     counter: int = 0
-    ascii_set: string = " .:-=+*#%@"
+    ascii_set: string = " .'-_~*#%@"
     ascii_art: string
 
 proc convertToAscii(brightness_value: uint8): char =
@@ -37,9 +38,10 @@ proc convertToAscii(brightness_value: uint8): char =
         of 255:
             ascii_set[9]
 
-
 proc main() =
-    image_data = stbi.load("../images/test.jpg", width, height, channels, stbi.Default)
+    render()
+
+    image_data = stbi.load("../images/test-80-40.jpg", width, height, channels, stbi.Default)
 
     for index, pixel in image_data:
         if counter != 2:
@@ -60,6 +62,5 @@ proc main() =
         counter = 0
 
     echo ascii_art
-    sleep(1000000)
 
 main()
