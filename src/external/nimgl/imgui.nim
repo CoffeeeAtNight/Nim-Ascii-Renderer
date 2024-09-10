@@ -858,7 +858,7 @@ type
     locked* {.importc: "Locked".}: bool
     texReady* {.importc: "TexReady".}: bool
     texPixelsUseColors* {.importc: "TexPixelsUseColors".}: bool
-    texPixelsAlpha8* {.importc: "TexPixelsAlpha8".}: ptr cuchar
+    texPixelsAlpha8* {.importc: "TexPixelsAlpha8".}: ptr char
     texPixelsRGBA32* {.importc: "TexPixelsRGBA32".}: ptr uint32
     texWidth* {.importc: "TexWidth".}: int32
     texHeight* {.importc: "TexHeight".}: int32
@@ -1083,8 +1083,8 @@ type
     dragDropAcceptIdPrev* {.importc: "DragDropAcceptIdPrev".}: ImGuiID
     dragDropAcceptFrameCount* {.importc: "DragDropAcceptFrameCount".}: int32
     dragDropHoldJustPressedId* {.importc: "DragDropHoldJustPressedId".}: ImGuiID
-    dragDropPayloadBufHeap* {.importc: "DragDropPayloadBufHeap".}: ImVector[cuchar]
-    dragDropPayloadBufLocal* {.importc: "DragDropPayloadBufLocal".}: array[16, cuchar]
+    dragDropPayloadBufHeap* {.importc: "DragDropPayloadBufHeap".}: ImVector[char]
+    dragDropPayloadBufLocal* {.importc: "DragDropPayloadBufLocal".}: array[16, char]
     currentTable* {.importc: "CurrentTable".}: ptr ImGuiTable
     currentTableStackIdx* {.importc: "CurrentTableStackIdx".}: int32
     tables* {.importc: "Tables".}: ImVector[ImGuiTable]
@@ -1890,15 +1890,15 @@ type
     cursor* {.importc: "cursor".}: int32
     select_start* {.importc: "select_start".}: int32
     select_end* {.importc: "select_end".}: int32
-    insert_mode* {.importc: "insert_mode".}: cuchar
+    insert_mode* {.importc: "insert_mode".}: char
     row_count_per_page* {.importc: "row_count_per_page".}: int32
-    cursor_at_end_of_line* {.importc: "cursor_at_end_of_line".}: cuchar
-    initialized* {.importc: "initialized".}: cuchar
-    has_preferred_x* {.importc: "has_preferred_x".}: cuchar
-    single_line* {.importc: "single_line".}: cuchar
-    padding1* {.importc: "padding1".}: cuchar
-    padding2* {.importc: "padding2".}: cuchar
-    padding3* {.importc: "padding3".}: cuchar
+    cursor_at_end_of_line* {.importc: "cursor_at_end_of_line".}: char
+    initialized* {.importc: "initialized".}: char
+    has_preferred_x* {.importc: "has_preferred_x".}: char
+    single_line* {.importc: "single_line".}: char
+    padding1* {.importc: "padding1".}: char
+    padding2* {.importc: "padding2".}: char
+    padding3* {.importc: "padding3".}: char
     preferred_x* {.importc: "preferred_x".}: float32
     undostate* {.importc: "undostate".}: StbUndoState
   StbTexteditRow* {.importc: "StbTexteditRow", imgui_header.} = object
@@ -2189,10 +2189,10 @@ proc getMouseCursorTexData*(self: ptr ImFontAtlas, cursor: ImGuiMouseCursor,
     out_offset: ptr ImVec2, out_size: ptr ImVec2, out_uv_border: var array[2,
     ImVec2], out_uv_fill: var array[2,
     ImVec2]): bool {.importc: "ImFontAtlas_GetMouseCursorTexData".}
-proc getTexDataAsAlpha8*(self: ptr ImFontAtlas, out_pixels: ptr ptr cuchar,
+proc getTexDataAsAlpha8*(self: ptr ImFontAtlas, out_pixels: ptr ptr char,
     out_width: ptr int32, out_height: ptr int32,
     out_bytes_per_pixel: ptr int32 = nil): void {.importc: "ImFontAtlas_GetTexDataAsAlpha8".}
-proc getTexDataAsRGBA32*(self: ptr ImFontAtlas, out_pixels: ptr ptr cuchar,
+proc getTexDataAsRGBA32*(self: ptr ImFontAtlas, out_pixels: ptr ptr char,
     out_width: ptr int32, out_height: ptr int32,
     out_bytes_per_pixel: ptr int32 = nil): void {.importc: "ImFontAtlas_GetTexDataAsRGBA32".}
 proc newImFontAtlas*(): void {.importc: "ImFontAtlas_ImFontAtlas".}
@@ -3065,9 +3065,9 @@ proc igImFloorNonUDT*(pOut: ptr ImVec2, v: ImVec2): void {.importc: "igImFloor_V
 proc igImFloorSigned*(f: float32): float32 {.importc: "igImFloorSigned".}
 proc igImFontAtlasBuildFinish*(atlas: ptr ImFontAtlas): void {.importc: "igImFontAtlasBuildFinish".}
 proc igImFontAtlasBuildInit*(atlas: ptr ImFontAtlas): void {.importc: "igImFontAtlasBuildInit".}
-proc igImFontAtlasBuildMultiplyCalcLookupTable*(out_table: cuchar,
+proc igImFontAtlasBuildMultiplyCalcLookupTable*(out_table: char,
     in_multiply_factor: float32): void {.importc: "igImFontAtlasBuildMultiplyCalcLookupTable".}
-proc igImFontAtlasBuildMultiplyRectAlpha8*(table: cuchar, pixels: ptr cuchar,
+proc igImFontAtlasBuildMultiplyRectAlpha8*(table: char, pixels: ptr char,
     x: int32, y: int32, w: int32, h: int32,
     stride: int32): void {.importc: "igImFontAtlasBuildMultiplyRectAlpha8".}
 proc igImFontAtlasBuildPackCustomRects*(atlas: ptr ImFontAtlas,
@@ -3079,7 +3079,7 @@ proc igImFontAtlasBuildRender32bppRectFromString*(atlas: ptr ImFontAtlas,
 proc igImFontAtlasBuildRender8bppRectFromString*(atlas: ptr ImFontAtlas,
     x: int32, y: int32, w: int32, h: int32, in_str: cstring,
     in_marker_char: int8,
-    in_marker_pixel_value: cuchar): void {.importc: "igImFontAtlasBuildRender8bppRectFromString".}
+    in_marker_pixel_value: char): void {.importc: "igImFontAtlasBuildRender8bppRectFromString".}
 proc igImFontAtlasBuildSetupFont*(atlas: ptr ImFontAtlas, font: ptr ImFont,
     font_config: ptr ImFontConfig, ascent: float32,
     descent: float32): void {.importc: "igImFontAtlasBuildSetupFont".}

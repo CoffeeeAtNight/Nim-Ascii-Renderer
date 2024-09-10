@@ -53,15 +53,15 @@ proc stbi_load(
   filename: cstring;
   x, y, channels_in_file: var cint;
   desired_channels: cint
-): ptr cuchar
+): ptr char
   {.importc: "stbi_load", stbcall.}
 
 proc stbi_load_from_memory(
-  buffer: ptr cuchar;
+  buffer: ptr char;
   len: cint;
   x, y, channels_in_file: var cint;
   desired_channels: cint
-): ptr cuchar
+): ptr char
   {.importc: "stbi_load_from_memory", stbcall.}
 
 # Right now I'm not planning on using the callback functions, but if someone
@@ -72,7 +72,7 @@ proc stbi_load_from_file(
   f: File;
   x, y, channels_in_file: var cint;
   desired_channels: cint
-): ptr cuchar
+): ptr char
   {.importc: "stbi_load_from_file", stbcall.}
 
 
@@ -123,7 +123,7 @@ proc load*(filename: string; x, y, channels_in_file: var int; desired_channels: 
 proc loadFromMemory*(buffer: seq[byte]; x, y, channels_in_file: var int; desired_channels: int): seq[byte] =
   var
     # Cast the buffer to another data type
-    castedBuffer = cast[ptr cuchar](buffer[0].unsafeAddr)
+    castedBuffer = cast[ptr char](buffer[0].unsafeAddr)
 
     # Return values
     width: cint
@@ -214,7 +214,7 @@ proc stbi_load_from_file_16(
   {.importc: "stbi_load_from_file_16", stbcall.}
 
 proc stbi_load_16_from_memory(
-  buffer: ptr cuchar;
+  buffer: ptr char;
   len: cint;
   x, y, channels_in_file: var cint;
   desired_channels: cint
@@ -316,7 +316,7 @@ proc loadFromFile16*(f: File; x, y, channels_in_file: var int; desired_channels:
 proc load16FromMemory*(buffer: seq[byte]; x, y, channels_in_file: var int; desired_channels: int): seq[uint16] =
   var
     # Cast the buffer to another data type
-    castedBuffer = cast[ptr cuchar](buffer[0].unsafeAddr)
+    castedBuffer = cast[ptr char](buffer[0].unsafeAddr)
 
     width: cint
     height: cint
@@ -360,7 +360,7 @@ proc stbi_loadf(
   {.importc: "stbi_loadf", stbcall.}
 
 proc stbi_loadf_from_memory(
-  buffer: ptr cuchar;
+  buffer: ptr char;
   len: cint;
   x, y, channels_in_file: var cint;
   desired_channels: cint
@@ -425,7 +425,7 @@ proc loadF*(filename: string; x, y, channels_in_file: var int; desired_channels:
 proc loadFFromMemory*(buffer: seq[byte]; x, y, channels_in_file: var int; desired_channels: int): seq[float32] =
   var
     # Cast the buffer to another data type
-    castedBuffer = cast[ptr cuchar](buffer[0].unsafeAddr)
+    castedBuffer = cast[ptr char](buffer[0].unsafeAddr)
 
     # Return values
     width: cint
@@ -516,7 +516,7 @@ proc stbi_ldr_to_hdr_scale(scale: cfloat)
 # The callback functions are going to be skipped (see the README.md)
 #int stbi_is_hdr_from_callbacks(stbi_io_callbacks const *clbk, void *user);
 
-proc stbi_is_hdr_from_memory(buffer: ptr cuchar; len: cint): cint
+proc stbi_is_hdr_from_memory(buffer: ptr char; len: cint): cint
   {.importc: "stbi_is_hdr_from_memory", stbcall.}
 
 proc stbi_is_hdr(filename: cstring): cint
@@ -548,7 +548,7 @@ proc LDRToHDRScale*(scale: float) =
 
 ## Checks to see if an image is an HDR image, from memory (as a string of bytes)
 proc isHDRFromMemory*(buffer: seq[byte]): bool =
-  var castedBuffer = cast[ptr cuchar](buffer[0].unsafeAddr)
+  var castedBuffer = cast[ptr char](buffer[0].unsafeAddr)
   return (stbi_is_hdr_from_memory(castedBuffer, buffer.len.cint) == 1)
 
 
@@ -568,7 +568,7 @@ proc isHDRFromFile*(f: File): bool =
 # ==============
 
 proc stbi_info_from_memory(
-  buffer: ptr cuchar;
+  buffer: ptr char;
   len: cint;
   x, y, comp: var cint
 ): cint
@@ -595,7 +595,7 @@ proc stbi_info_from_file(
 proc infoFromMemory*(buffer: seq[byte]; x, y, comp: var int): bool =
   var
     # Cast the buffer to another data type
-    castedBuffer = cast[ptr cuchar](buffer[0].unsafeAddr)
+    castedBuffer = cast[ptr char](buffer[0].unsafeAddr)
     width: cint
     height: cint
     channels: cint
@@ -686,13 +686,13 @@ proc setFlipVerticallyOnLoad*(flip: bool) =
 # =====================
 
 # C Wrapper procedures. Only these three are needed, all other only provide other default values
-proc stbi_zlib_decode_malloc_guesssize_headerflag(buffer: ptr cuchar, len: cint, initial_size: cint,
-  outlen: ptr cint, parse_header: cint): ptr cuchar {.importc: "stbi_zlib_decode_malloc_guesssize_headerflag", stbcall.}
+proc stbi_zlib_decode_malloc_guesssize_headerflag(buffer: ptr char, len: cint, initial_size: cint,
+  outlen: ptr cint, parse_header: cint): ptr char {.importc: "stbi_zlib_decode_malloc_guesssize_headerflag", stbcall.}
 
-proc stbi_zlib_decode_buffer(obuffer: ptr cuchar, olen: cint, ibuffer: ptr cuchar, ilen: cint): cint
+proc stbi_zlib_decode_buffer(obuffer: ptr char, olen: cint, ibuffer: ptr char, ilen: cint): cint
   {.importc: "stbi_zlib_decode_buffer", stbcall.}
 
-proc stbi_zlib_decode_noheader_buffer(obuffer: ptr cuchar, olen: cint, ibuffer: ptr cuchar, ilen: cint): cint
+proc stbi_zlib_decode_noheader_buffer(obuffer: ptr char, olen: cint, ibuffer: ptr char, ilen: cint): cint
   {.importc: "stbi_zlib_decode_noheader_buffer", stbcall.}
 
 ## Uncompresses ``buffer`` and returns the decompressed data. Too parse a raw inflate stream
@@ -703,7 +703,7 @@ proc stbi_zlib_decode_noheader_buffer(obuffer: ptr cuchar, olen: cint, ibuffer: 
 proc zlibDecodeMalloc*(buffer: openArray[byte], initial_size = 16384, parseheader = true): seq[byte] =
   var length = cint 0
 
-  let data = stbi_zlib_decode_malloc_guesssize_headerflag(cast[ptr cuchar](unsafeAddr buffer[0]),
+  let data = stbi_zlib_decode_malloc_guesssize_headerflag(cast[ptr char](unsafeAddr buffer[0]),
     cint buffer.len, cint initial_size, addr length, cint parseheader)
 
   # some error has occured
@@ -721,8 +721,8 @@ proc zlibDecodeMalloc*(buffer: openArray[byte], initial_size = 16384, parseheade
 ## Switch ``parseheader`` to ``false`` to parse a raw deflate stream.
 proc zlibDecodeBuffer*(input: openArray[byte], output: var openArray[byte], parseheader = true): Natural =
   let
-    inputPtr = cast[ptr cuchar](output[0].addr)
-    outputPtr = cast[ptr cuchar](input[0].unsafeAddr)
+    inputPtr = cast[ptr char](output[0].addr)
+    outputPtr = cast[ptr char](input[0].unsafeAddr)
     bytesRead = (if not parseheader:
       stbi_zlib_decode_noheader_buffer(inputPtr, cint output.len, outputPtr, cint input.len) else:
       stbi_zlib_decode_buffer(inputPtr, cint output.len, outputPtr, cint input.len))

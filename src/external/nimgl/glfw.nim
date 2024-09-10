@@ -1048,7 +1048,7 @@ type
     ## This describes a single 2D image.
     width*: int32
     height*: int32
-    pixels*: ptr cuchar
+    pixels*: ptr char
   GLFWGamepadState* = object
     ## This describes the input state of a gamepad.
     buttons*: array[15, bool]
@@ -4484,7 +4484,7 @@ proc glfwGetJoystickAxes*(jid: int32, count: ptr int32): ptr float32 {.importc: 
   ## @since Added in version 3.0.  Replaces `glfwGetJoystickPos`.
   ##
   ## @ingroup input
-proc glfwGetJoystickButtons*(jid: int32, count: ptr int32): ptr cuchar {.importc: "glfwGetJoystickButtons".}
+proc glfwGetJoystickButtons*(jid: int32, count: ptr int32): ptr char {.importc: "glfwGetJoystickButtons".}
   ## @brief Returns the state of all buttons of the specified joystick.
   ##
   ## This function returns the state of all buttons of the specified joystick.
@@ -4523,7 +4523,7 @@ proc glfwGetJoystickButtons*(jid: int32, count: ptr int32): ptr cuchar {.importc
   ## @glfw3 Changed to return a dynamic array.
   ##
   ## @ingroup input
-proc glfwGetJoystickHats*(jid: int32, count: ptr int32): ptr cuchar {.importc: "glfwGetJoystickHats".}
+proc glfwGetJoystickHats*(jid: int32, count: ptr int32): ptr char {.importc: "glfwGetJoystickHats".}
   ## @brief Returns the state of all hats of the specified joystick.
   ##
   ## This function returns the state of all hats of the specified joystick.
@@ -5424,5 +5424,5 @@ proc glfwCreateWindow*(width: int32, height: int32, title: cstring = "NimGL", mo
   ## Utility to create the window with a proper icon.
   result = glfwCreateWindowC(width, height, title, monitor, share)
   if not icon: return result
-  var image = GLFWImage(pixels: cast[ptr cuchar](nimglLogo[0].addr), width: nimglLogoWidth, height: nimglLogoHeight)
+  var image = GLFWImage(pixels: cast[ptr char](nimglLogo[0].addr), width: nimglLogoWidth, height: nimglLogoHeight)
   result.setWindowIcon(1, image.addr)
